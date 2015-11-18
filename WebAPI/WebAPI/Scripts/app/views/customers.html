@@ -1,0 +1,23 @@
+﻿
+
+<h2>Customers</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Gold</td>
+        <td>Joined</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in customers">
+        <td>{{c.name}}</td>
+        <td>{{c.gold ? 'gold': ''}}</td>
+        <td>{{c.joined}}</td>
+        <td><a ng-click="remove(c)"><span class="glyphicon glyphicon-remove"></span></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-default" ui-sref="addCustomer">Add Customer</button>

@@ -1,0 +1,15 @@
+﻿
+
+<h3>Create Customer</h3>
+
+<div class="form-group">
+    <label>Name</label>
+    <input ng-model="customer.name" type="text" class="form-control"/>
+</div>
+
+<div class="checkbox">
+    <label><input ng-model="customer.gold"type="checkbox" value="">Gold</label>
+</div>
+
+<button class="btn btn-default" ui-sref="customers">cancel</button>
+<button class="btn btn-success" ng-click="addCustomer()">Create</button>
