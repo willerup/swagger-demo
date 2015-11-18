@@ -5,7 +5,7 @@ angular.module('myapp')
 
     function loadCustomers() {
         customerService.listCustomers().then(function (response) {
-            $scope.customers = response.data;
+            $scope.customers = JSON.parse(JSON.stringify(response.data));;
         });
     }
 

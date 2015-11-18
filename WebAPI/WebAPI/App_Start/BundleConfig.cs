@@ -25,6 +25,7 @@ namespace WebAPI
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/Scripts/app/app.js")
+                .Include("~/Scripts/swagger-client.js")
                 .IncludeDirectory("~/Scripts/app/controllers", "*.js", true)
                 .IncludeDirectory("~/Scripts/app/services", "*.js", true));
 

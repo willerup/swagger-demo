@@ -197,15 +197,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Customers2Controller.cs" />
-    <Compile Include="Migrations\201511030445171_InitialCreate.cs" />
-    <Compile Include="Migrations\201511030445171_InitialCreate.Designer.cs">
+    <Compile Include="Models\Data\Migrations\201511030445171_InitialCreate.cs" />
+    <Compile Include="Models\Data\Migrations\201511030445171_InitialCreate.Designer.cs">
       <DependentUpon>201511030445171_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511172118530_tweaks.cs" />
-    <Compile Include="Migrations\201511172118530_tweaks.Designer.cs">
+    <Compile Include="Models\Data\Migrations\201511172118530_tweaks.cs" />
+    <Compile Include="Models\Data\Migrations\201511172118530_tweaks.Designer.cs">
       <DependentUpon>201511172118530_tweaks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Data\Migrations\Configuration.cs" />
     <Compile Include="Models\Business\DatabaseCustomerRepository.cs" />
     <Compile Include="Models\Business\ICustomerRepository.cs" />
     <Compile Include="Models\External\CreateCustomer.cs" />
@@ -234,6 +234,7 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\controllers\customerController.js" />
     <Content Include="Scripts\app\services\customerService.js" />
+    <Content Include="Scripts\app\services\api.js" />
     <Content Include="Scripts\app\views\add-customer.html" />
     <Content Include="Scripts\app\views\customers.html" />
     <Content Include="Scripts\bootstrap.js" />
@@ -258,11 +259,13 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Content\swagger.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\swagger-client.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -292,13 +295,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511030445171_InitialCreate.resx">
+    <EmbeddedResource Include="Models\Data\Migrations\201511030445171_InitialCreate.resx">
       <DependentUpon>201511030445171_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511172118530_tweaks.resx">
+    <EmbeddedResource Include="Models\Data\Migrations\201511172118530_tweaks.resx">
       <DependentUpon>201511172118530_tweaks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
