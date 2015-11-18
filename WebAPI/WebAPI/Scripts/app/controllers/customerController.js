@@ -1,16 +1,16 @@
 ﻿'use strict';
 angular.module('myapp')
 
-.controller('CustomerController', ['$scope', 'customerService', function ($scope, customerService) {
+.controller('CustomerController', ['$scope', 'apiService', function ($scope, apiService) {
 
     function loadCustomers() {
-        customerService.listCustomers().then(function (response) {
-            $scope.customers = response.data;
+        apiService.listCustomers().then(function (list) {
+            $scope.customers = list;
         });
     }
 
     $scope.remove = function (customer) {
-        customerService.deleteCustomer(customer.id).then(function () {
+        apiService.deleteCustomer({ customerId: customer.id }).then(function () {
             loadCustomers();
         });
     };
@@ -18,10 +18,10 @@ angular.module('myapp')
     loadCustomers();
 }])
 
-.controller('AddCustomerController', ['$scope', '$state', 'customerService', function ($scope, $state, customerService) {
+.controller('AddCustomerController', ['$scope', '$state', 'apiService', function ($scope, $state, apiService) {
 
     $scope.addCustomer = function () {
-        customerService.createCustomer($scope.customer).then(function () {
+        apiService.createCustomer({ customer: $scope.customer }).then(function () {
             $state.go('customers');
         });
 
