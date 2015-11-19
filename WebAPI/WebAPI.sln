@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Console", "Demo.Consol
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{74713F61-5544-42AB-97A7-82662839C977}"
 	ProjectSection(SolutionItems) = preProject
-		update-api-client.js = update-api-client.js
+		scripts\update-api-client.js = scripts\update-api-client.js
 	EndProjectSection
 EndProject
 Global
