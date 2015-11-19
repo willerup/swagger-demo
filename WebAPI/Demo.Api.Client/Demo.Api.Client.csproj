@@ -48,13 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\CustomersApi.cs" />
-    <Compile Include="Client\ApiClient.cs" />
-    <Compile Include="Client\ApiException.cs" />
-    <Compile Include="Client\Configuration.cs" />
-    <Compile Include="Model\CreateCustomer.cs" />
-    <Compile Include="Model\Customer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+
+
+
+
+
+
+    <Compile Include="IO\Swagger\Api\PublicApi.cs" />
+<Compile Include="IO\Swagger\Client\ApiClient.cs" />
+<Compile Include="IO\Swagger\Client\ApiException.cs" />
+<Compile Include="IO\Swagger\Client\Configuration.cs" />
+<Compile Include="IO\Swagger\Model\CustomerCreate.cs" />
+<Compile Include="IO\Swagger\Model\CustomerDetail.cs" />
+<Compile Include="IO\Swagger\Model\CustomerSummary.cs" />
+<Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

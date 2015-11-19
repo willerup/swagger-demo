@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using IO.Swagger.Model;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -27,7 +28,7 @@ namespace WebAPI.Controllers
 
         [Route("")]
         [HttpPost]
-        public Customer CreateCustomer([FromBody]CreateCustomer value)
+        public Customer CreateCustomer([FromBody]Customer value)
         {
             Customer customer = new Customer
             {

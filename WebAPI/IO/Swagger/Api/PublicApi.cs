@@ -11,100 +11,104 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface ICustomersApi
+    public interface IPublicApi
     {
         
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Get list of customers.
         /// </remarks>
+        /// <param name="offset">number of items to skip</param>
+        /// <param name="limit">max items to return</param>
         /// <returns></returns>
-        List<Customer> CustomersListCustomers ();
+        List<CustomerSummary> ListCustomers (int? offset, int? limit);
   
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Get list of customers.
         /// </remarks>
+        /// <param name="offset">number of items to skip</param>
+        /// <param name="limit">max items to return</param>
         /// <returns></returns>
-        System.Threading.Tasks.Task<List<Customer>> CustomersListCustomersAsync ();
+        System.Threading.Tasks.Task<List<CustomerSummary>> ListCustomersAsync (int? offset, int? limit);
         
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Create a customer
         /// </remarks>
-        /// <param name="value"></param>
-        /// <returns>Customer</returns>
-        Customer CustomersCreateCustomer (CreateCustomer value);
+        /// <param name="customer"></param>
+        /// <returns>CustomerDetail</returns>
+        CustomerDetail CreateCustomer (CustomerCreate customer);
   
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Create a customer
         /// </remarks>
-        /// <param name="value"></param>
-        /// <returns>Customer</returns>
-        System.Threading.Tasks.Task<Customer> CustomersCreateCustomerAsync (CreateCustomer value);
+        /// <param name="customer"></param>
+        /// <returns>CustomerDetail</returns>
+        System.Threading.Tasks.Task<CustomerDetail> CreateCustomerAsync (CustomerCreate customer);
         
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Get a customer by id
         /// </remarks>
-        /// <param name="id"></param>
-        /// <returns>Customer</returns>
-        Customer CustomersGetCustomer (int? id);
+        /// <param name="customerId"></param>
+        /// <returns>CustomerDetail</returns>
+        CustomerDetail GetCustomer (string customerId);
   
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Get a customer by id
         /// </remarks>
-        /// <param name="id"></param>
-        /// <returns>Customer</returns>
-        System.Threading.Tasks.Task<Customer> CustomersGetCustomerAsync (int? id);
+        /// <param name="customerId"></param>
+        /// <returns>CustomerDetail</returns>
+        System.Threading.Tasks.Task<CustomerDetail> GetCustomerAsync (string customerId);
         
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Delete customer by id
         /// </remarks>
-        /// <param name="id"></param>
+        /// <param name="customerId"></param>
         /// <returns></returns>
-        void CustomersDeleteCustomer (int? id);
+        void CustomersCustomerIdDelete (string customerId);
   
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// Delete customer by id
         /// </remarks>
-        /// <param name="id"></param>
+        /// <param name="customerId"></param>
         /// <returns></returns>
-        System.Threading.Tasks.Task CustomersDeleteCustomerAsync (int? id);
+        System.Threading.Tasks.Task CustomersCustomerIdDeleteAsync (string customerId);
         
     }
   
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class CustomersApi : ICustomersApi
+    public class PublicApi : IPublicApi
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomersApi"/> class.
+        /// Initializes a new instance of the <see cref="PublicApi"/> class.
         /// </summary>
         /// <param name="apiClient"> an instance of ApiClient (optional)</param>
         /// <returns></returns>
-        public CustomersApi(ApiClient apiClient = null)
+        public PublicApi(ApiClient apiClient = null)
         {
             if (apiClient == null) // use the default one in Configuration
                 this.ApiClient = Configuration.DefaultApiClient; 
@@ -113,10 +117,10 @@ namespace IO.Swagger.Api
         }
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomersApi"/> class.
+        /// Initializes a new instance of the <see cref="PublicApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public CustomersApi(String basePath)
+        public PublicApi(String basePath)
         {
             this.ApiClient = new ApiClient(basePath);
         }
@@ -148,14 +152,16 @@ namespace IO.Swagger.Api
     
         
         /// <summary>
-        ///  
+        ///  Get list of customers.
         /// </summary>
+        /// <param name="offset">number of items to skip</param> 
+        /// <param name="limit">max items to return</param> 
         /// <returns></returns>            
-        public List<Customer> CustomersListCustomers ()
+        public List<CustomerSummary> ListCustomers (int? offset, int? limit)
         {
             
     
-            var path_ = "/v1/customers";
+            var path_ = "/customers";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -166,7 +172,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                "application/json", "text/json", "text/html", "application/xml", "text/xml"
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -176,6 +182,8 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
+            if (offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset)); // query parameter
+            if (limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit)); // query parameter
             
             
             
@@ -188,22 +196,24 @@ namespace IO.Swagger.Api
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersListCustomers: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling ListCustomers: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersListCustomers: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException ((int)response.StatusCode, "Error calling ListCustomers: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Customer>) ApiClient.Deserialize(response, typeof(List<Customer>));
+            return (List<CustomerSummary>) ApiClient.Deserialize(response, typeof(List<CustomerSummary>));
         }
     
         /// <summary>
-        ///  
+        ///  Get list of customers.
         /// </summary>
+        /// <param name="offset">number of items to skip</param>
+        /// <param name="limit">max items to return</param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task<List<Customer>> CustomersListCustomersAsync ()
+        public async System.Threading.Tasks.Task<List<CustomerSummary>> ListCustomersAsync (int? offset, int? limit)
         {
             
     
-            var path_ = "/v1/customers";
+            var path_ = "/customers";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -214,7 +224,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                "application/json", "text/json", "text/html", "application/xml", "text/xml"
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -224,6 +234,8 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
+            if (offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset)); // query parameter
+            if (limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit)); // query parameter
             
             
             
@@ -235,24 +247,21 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersListCustomers: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling ListCustomers: " + response.Content, response.Content);
 
-            return (List<Customer>) ApiClient.Deserialize(response, typeof(List<Customer>));
+            return (List<CustomerSummary>) ApiClient.Deserialize(response, typeof(List<CustomerSummary>));
         }
         
         /// <summary>
-        ///  
+        ///  Create a customer
         /// </summary>
-        /// <param name="value"></param> 
-        /// <returns>Customer</returns>            
-        public Customer CustomersCreateCustomer (CreateCustomer value)
+        /// <param name="customer"></param> 
+        /// <returns>CustomerDetail</returns>            
+        public CustomerDetail CreateCustomer (CustomerCreate customer)
         {
             
-            // verify the required parameter 'value' is set
-            if (value == null) throw new ApiException(400, "Missing required parameter 'value' when calling CustomersCreateCustomer");
-            
     
-            var path_ = "/v1/customers";
+            var path_ = "/customers";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -263,7 +272,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                "application/json", "text/json", "text/html", "application/xml", "text/xml"
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -276,7 +285,7 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(value); // http body (model) parameter
+            postBody = ApiClient.Serialize(customer); // http body (model) parameter
             
     
             // authentication setting, if any
@@ -286,25 +295,23 @@ namespace IO.Swagger.Api
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersCreateCustomer: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling CreateCustomer: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersCreateCustomer: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException ((int)response.StatusCode, "Error calling CreateCustomer: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Customer) ApiClient.Deserialize(response, typeof(Customer));
+            return (CustomerDetail) ApiClient.Deserialize(response, typeof(CustomerDetail));
         }
     
         /// <summary>
-        ///  
+        ///  Create a customer
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns>Customer</returns>
-        public async System.Threading.Tasks.Task<Customer> CustomersCreateCustomerAsync (CreateCustomer value)
+        /// <param name="customer"></param>
+        /// <returns>CustomerDetail</returns>
+        public async System.Threading.Tasks.Task<CustomerDetail> CreateCustomerAsync (CustomerCreate customer)
         {
-            // verify the required parameter 'value' is set
-            if (value == null) throw new ApiException(400, "Missing required parameter 'value' when calling CustomersCreateCustomer");
             
     
-            var path_ = "/v1/customers";
+            var path_ = "/customers";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -315,7 +322,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                "application/json", "text/json", "text/html", "application/xml", "text/xml"
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -328,7 +335,7 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(value); // http body (model) parameter
+            postBody = ApiClient.Serialize(customer); // http body (model) parameter
             
     
             // authentication setting, if any
@@ -337,24 +344,24 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersCreateCustomer: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling CreateCustomer: " + response.Content, response.Content);
 
-            return (Customer) ApiClient.Deserialize(response, typeof(Customer));
+            return (CustomerDetail) ApiClient.Deserialize(response, typeof(CustomerDetail));
         }
         
         /// <summary>
-        ///  
+        ///  Get a customer by id
         /// </summary>
-        /// <param name="id"></param> 
-        /// <returns>Customer</returns>            
-        public Customer CustomersGetCustomer (int? id)
+        /// <param name="customerId"></param> 
+        /// <returns>CustomerDetail</returns>            
+        public CustomerDetail GetCustomer (string customerId)
         {
             
-            // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling CustomersGetCustomer");
+            // verify the required parameter 'customerId' is set
+            if (customerId == null) throw new ApiException(400, "Missing required parameter 'customerId' when calling GetCustomer");
             
     
-            var path_ = "/v1/customers/{id}";
+            var path_ = "/customers/{customerId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -365,7 +372,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                "application/json", "text/json", "text/html", "application/xml", "text/xml"
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -374,7 +381,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (id != null) pathParams.Add("id", ApiClient.ParameterToString(id)); // path parameter
+            if (customerId != null) pathParams.Add("customerId", ApiClient.ParameterToString(customerId)); // path parameter
             
             
             
@@ -388,25 +395,25 @@ namespace IO.Swagger.Api
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersGetCustomer: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling GetCustomer: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersGetCustomer: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException ((int)response.StatusCode, "Error calling GetCustomer: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Customer) ApiClient.Deserialize(response, typeof(Customer));
+            return (CustomerDetail) ApiClient.Deserialize(response, typeof(CustomerDetail));
         }
     
         /// <summary>
-        ///  
+        ///  Get a customer by id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Customer</returns>
-        public async System.Threading.Tasks.Task<Customer> CustomersGetCustomerAsync (int? id)
+        /// <param name="customerId"></param>
+        /// <returns>CustomerDetail</returns>
+        public async System.Threading.Tasks.Task<CustomerDetail> GetCustomerAsync (string customerId)
         {
-            // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling CustomersGetCustomer");
+            // verify the required parameter 'customerId' is set
+            if (customerId == null) throw new ApiException(400, "Missing required parameter 'customerId' when calling GetCustomer");
             
     
-            var path_ = "/v1/customers/{id}";
+            var path_ = "/customers/{customerId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -417,7 +424,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                "application/json", "text/json", "text/html", "application/xml", "text/xml"
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -426,7 +433,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (id != null) pathParams.Add("id", ApiClient.ParameterToString(id)); // path parameter
+            if (customerId != null) pathParams.Add("customerId", ApiClient.ParameterToString(customerId)); // path parameter
             
             
             
@@ -439,24 +446,24 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersGetCustomer: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling GetCustomer: " + response.Content, response.Content);
 
-            return (Customer) ApiClient.Deserialize(response, typeof(Customer));
+            return (CustomerDetail) ApiClient.Deserialize(response, typeof(CustomerDetail));
         }
         
         /// <summary>
-        ///  
+        ///  Delete customer by id
         /// </summary>
-        /// <param name="id"></param> 
+        /// <param name="customerId"></param> 
         /// <returns></returns>            
-        public void CustomersDeleteCustomer (int? id)
+        public void CustomersCustomerIdDelete (string customerId)
         {
             
-            // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling CustomersDeleteCustomer");
+            // verify the required parameter 'customerId' is set
+            if (customerId == null) throw new ApiException(400, "Missing required parameter 'customerId' when calling CustomersCustomerIdDelete");
             
     
-            var path_ = "/v1/customers/{id}";
+            var path_ = "/customers/{customerId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -467,7 +474,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -476,7 +483,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (id != null) pathParams.Add("id", ApiClient.ParameterToString(id)); // path parameter
+            if (customerId != null) pathParams.Add("customerId", ApiClient.ParameterToString(customerId)); // path parameter
             
             
             
@@ -490,25 +497,25 @@ namespace IO.Swagger.Api
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersDeleteCustomer: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling CustomersCustomerIdDelete: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersDeleteCustomer: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException ((int)response.StatusCode, "Error calling CustomersCustomerIdDelete: " + response.ErrorMessage, response.ErrorMessage);
     
             return;
         }
     
         /// <summary>
-        ///  
+        ///  Delete customer by id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="customerId"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CustomersDeleteCustomerAsync (int? id)
+        public async System.Threading.Tasks.Task CustomersCustomerIdDeleteAsync (string customerId)
         {
-            // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling CustomersDeleteCustomer");
+            // verify the required parameter 'customerId' is set
+            if (customerId == null) throw new ApiException(400, "Missing required parameter 'customerId' when calling CustomersCustomerIdDelete");
             
     
-            var path_ = "/v1/customers/{id}";
+            var path_ = "/customers/{customerId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -519,7 +526,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] http_header_accepts = new String[] {
-                
+                "application/json"
             };
             String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
@@ -528,7 +535,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (id != null) pathParams.Add("id", ApiClient.ParameterToString(id)); // path parameter
+            if (customerId != null) pathParams.Add("customerId", ApiClient.ParameterToString(customerId)); // path parameter
             
             
             
@@ -541,7 +548,7 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling CustomersDeleteCustomer: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling CustomersCustomerIdDelete: " + response.Content, response.Content);
 
             
             return;

@@ -12,13 +12,13 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class Customer {
+  public class CustomerSummary {
     
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
     [DataMember(Name="id", EmitDefaultValue=false)]
-    public int? Id { get; set; }
+    public string Id { get; set; }
 
     
     /// <summary>
@@ -28,20 +28,6 @@ namespace IO.Swagger.Model {
     public string Name { get; set; }
 
     
-    /// <summary>
-    /// Gets or Sets Gold
-    /// </summary>
-    [DataMember(Name="gold", EmitDefaultValue=false)]
-    public bool? Gold { get; set; }
-
-    
-    /// <summary>
-    /// Gets or Sets Joined
-    /// </summary>
-    [DataMember(Name="joined", EmitDefaultValue=false)]
-    public DateTime? Joined { get; set; }
-
-    
 
     /// <summary>
     /// Get the string presentation of the object
@@ -49,15 +35,11 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class Customer {\n");
+      sb.Append("class CustomerSummary {\n");
       
       sb.Append("  Id: ").Append(Id).Append("\n");
       
       sb.Append("  Name: ").Append(Name).Append("\n");
-      
-      sb.Append("  Gold: ").Append(Gold).Append("\n");
-      
-      sb.Append("  Joined: ").Append(Joined).Append("\n");
       
       sb.Append("}\n");
       return sb.ToString();

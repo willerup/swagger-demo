@@ -1,0 +1,8 @@
+{
+  "name": "update-api-client",
+  "dependencies": {
+    "ncp": "^2.0.0",
+    "replace": "^0.3.0",
+    "rimraf": "^2.4.3"
+  }
+}

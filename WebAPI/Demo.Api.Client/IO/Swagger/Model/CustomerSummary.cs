@@ -12,20 +12,20 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class CreateCustomer {
+  public class CustomerSummary {
+    
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [DataMember(Name="id", EmitDefaultValue=false)]
+    public string Id { get; set; }
+
     
     /// <summary>
     /// Gets or Sets Name
     /// </summary>
     [DataMember(Name="name", EmitDefaultValue=false)]
     public string Name { get; set; }
-
-    
-    /// <summary>
-    /// Gets or Sets Gold
-    /// </summary>
-    [DataMember(Name="gold", EmitDefaultValue=false)]
-    public bool? Gold { get; set; }
 
     
 
@@ -35,11 +35,11 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class CreateCustomer {\n");
+      sb.Append("class CustomerSummary {\n");
+      
+      sb.Append("  Id: ").Append(Id).Append("\n");
       
       sb.Append("  Name: ").Append(Name).Append("\n");
-      
-      sb.Append("  Gold: ").Append(Gold).Append("\n");
       
       sb.Append("}\n");
       return sb.ToString();

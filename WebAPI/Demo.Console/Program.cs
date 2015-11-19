@@ -1,5 +1,6 @@
 ﻿using System;
 using IO.Swagger.Api;
+using IO.Swagger.Client;
 using IO.Swagger.Model;
 
 namespace Demo.Console
@@ -8,11 +9,11 @@ namespace Demo.Console
     {
         static void Main(string[] args)
         {
-            var api = new CustomersApi("http://demo.local");
-            var customers = api.CustomersListCustomers();
-            foreach (Customer customer in customers)
+            var api = new PublicApi(new ApiClient("http://demo.local/v2"));
+            var customers = api.ListCustomers(null, null);
+            foreach (CustomerSummary customer in customers)
             {
-                System.Console.WriteLine("{0,-20} {1,10} {2,20}", customer.Name, customer.Gold, customer.Joined);
+                System.Console.WriteLine(customer.Name);
             }
             System.Console.ReadLine();
         }

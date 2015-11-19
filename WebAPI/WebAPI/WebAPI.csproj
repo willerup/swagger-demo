@@ -197,6 +197,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Customers2Controller.cs" />
+    <Compile Include="Models\Business\DataContextCustomerRepository.cs" />
     <Compile Include="Models\Data\Migrations\201511030445171_InitialCreate.cs" />
     <Compile Include="Models\Data\Migrations\201511030445171_InitialCreate.Designer.cs">
       <DependentUpon>201511030445171_InitialCreate.cs</DependentUpon>
@@ -206,9 +207,7 @@
       <DependentUpon>201511172118530_tweaks.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Data\Migrations\Configuration.cs" />
-    <Compile Include="Models\Business\DatabaseCustomerRepository.cs" />
     <Compile Include="Models\Business\ICustomerRepository.cs" />
-    <Compile Include="Models\External\CreateCustomer.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -298,6 +297,12 @@
     <EmbeddedResource Include="Models\Data\Migrations\201511172118530_tweaks.resx">
       <DependentUpon>201511172118530_tweaks.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Demo.Api.Client\Demo.Api.Client.csproj">
+      <Project>{64783516-1e94-454b-8d0c-890389ce20a1}</Project>
+      <Name>Demo.Api.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

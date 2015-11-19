@@ -1,62 +1,56 @@
-
 swagger: '2.0'
 info:
   title: My API
-  version: "1.0.0"
+  version: 1.0.0
 host: api.mysite.com
 schemes:
   - https
 basePath: /v1
 produces:
   - application/json
-
-
 securityDefinitions:
   auth:
     type: oauth2
     authorizationUrl: 'https://api.mysite.com/account/authenticate'
     flow: implicit
-
 security:
   - auth: []
-
 paths:
   /customers:
     get:
       parameters:
-      - $ref: "#/parameters/offset"
-      - $ref: "#/parameters/limit"
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/limit'
       tags:
-      - public
+        - public
       description: Get list of customers.
       operationId: listCustomers
       responses:
-        200:
+        '200':
           description: List of customers
           schema:
             type: array
             items:
-              $ref: '#/definitions/Customer'
+              $ref: '#/definitions/CustomerSummary'
     post:
       tags:
-      - admin
+        - public
       description: Create a customer
       operationId: createCustomer
       parameters:
         - name: customer
           in: body
           schema:
-            $ref: '#/definitions/NewCustomer'
+            $ref: '#/definitions/CustomerCreate'
       responses:
-        201:
+        '201':
           description: Customer
           schema:
-            $ref: '#/definitions/Customer'
-
-  /customers/{customerId}:
+            $ref: '#/definitions/CustomerDetail'
+  '/customers/{customerId}':
     get:
       tags:
-      - public
+        - public
       description: Get a customer by id
       operationId: getCustomer
       parameters:
@@ -65,17 +59,32 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: Customer
           schema:
-            $ref: '#/definitions/Customer'
+            $ref: '#/definitions/CustomerDetail'
           examples:
             application/json:
               id: abc123
               href: 'https://api.mysite.com/v1/customers/abc123'
-              name: 'Customer Ltd'
+              name: Customer Ltd
               gold: true
               joined: '2015-09-11'
+    delete:
+      tags:
+        - public
+      description: Delete customer by id
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Customer was deleted
+        404:
+          description: Customer wasn't found
+
 parameters:
   offset:
     name: offset
@@ -89,16 +98,14 @@ parameters:
     description: max items to return
     type: integer
     format: int32
-
 definitions:
-  NewCustomer:
+  CustomerCreate:
     properties:
       name:
         type: string
       gold:
         type: boolean
-
-  Customer:
+  CustomerDetail:
     properties:
       id:
         type: string
@@ -111,3 +118,9 @@ definitions:
       joined:
         type: string
         format: date
+  CustomerSummary:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
