@@ -1,20 +1,20 @@
 swagger: '2.0'
 info:
   title: My API
-  version: "1.0.0"
+  version: 1.0.0
 host: api.mysite.com
 schemes:
   - https
 basePath: /v1
 produces:
   - application/json
+
 paths:
   /customers:
     get:
       description: Get list of customers.
-      operationId: listCustomers
       responses:
-        200:
+        '200':
           description: List of customers
           schema:
             type: array
@@ -22,47 +22,40 @@ paths:
               $ref: '#/definitions/Customer'
     post:
       description: Create a customer
-      operationId: createCustomer
       parameters:
         - name: customer
           in: body
           schema:
-            $ref: '#/definitions/NewCustomer'
+            $ref: '#/definitions/Customer'
       responses:
-        201:
+        '201':
           description: Customer
           schema:
             $ref: '#/definitions/Customer'
-  /customers/{customerId}:
+
+  /customers/{id}:
     get:
       description: Get a customer by id
-      operationId: getCustomer
       parameters:
-        - name: customerId
+        - name: id
           in: path
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: Customer
           schema:
             $ref: '#/definitions/Customer'
 
 definitions:
-  NewCustomer:
-    properties:
-      name:
-        type: string
-      tag:
-        type: string
-
   Customer:
     properties:
       id:
         type: string
-      href:
-        type: string
       name:
         type: string
-      tag:
+      gold:
+        type: boolean
+      joined:
         type: string
+        format: date
