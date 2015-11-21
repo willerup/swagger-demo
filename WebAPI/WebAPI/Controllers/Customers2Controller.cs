@@ -4,8 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebAPI.Models;
+using IO.Swagger.Model;
 using WebAPI.Models.Business;
+using Customer = WebAPI.Models.Customer;
 
 namespace WebAPI.Controllers
 {
@@ -16,26 +17,26 @@ namespace WebAPI.Controllers
 
         public Customers2Controller()
         {
-            _customers = new DatabaseCustomerRepository();
+            _customers = new DataContextCustomerRepository();
         }
 
         [Route("")]
         [HttpGet]
-        public IEnumerable<Customer> ListCustomers()
+        public IEnumerable<CustomerSummary> ListCustomers()
         {
             return _customers.List();
         }
 
         [Route("")]
         [HttpPost]
-        public Customer CreateCustomer([FromBody]Customer customer)
+        public CustomerDetail CreateCustomer([FromBody]CustomerCreate customer)
         {
             return _customers.Create(customer);
         }
 
         [Route("{id}")]
         [HttpGet]
-        public Customer GetCustomer(int id)
+        public CustomerDetail GetCustomer(int id)
         {
             return _customers.Get(id);
         }
