@@ -19,11 +19,6 @@
             "flow": "implicit"
         }
     },
-    "security": [
-        {
-            "auth": []
-        }
-    ],
     "paths": {
         "/customers": {
             "get": {
@@ -54,7 +49,7 @@
             },
             "post": {
                 "tags": [
-                    "admin"
+                    "public"
                 ],
                 "description": "Create a customer",
                 "operationId": "createCustomer",
@@ -107,6 +102,29 @@
                                 "joined": "2015-09-11"
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Customer id was not known"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "public"
+                ],
+                "description": "Delete a customer by id",
+                "operationId": "deleteCustomer",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
                     }
                 }
             }
