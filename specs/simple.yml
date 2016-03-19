@@ -1,0 +1,55 @@
+
+swagger: '2.0'
+info:
+  title: My API
+  version: "1.0.0"
+basePath: /v1
+produces:
+  - application/json
+
+paths:
+  /customers:
+    get:
+      parameters:
+      - name: limit
+        in: query
+        description: Max items to return
+        type: integer
+        format: int32
+      description: Get list of customers
+      operationId: listCustomers
+      responses:
+        200:
+          description: List of customers
+          schema:
+            $ref: '#/definitions/CustomerList'
+        default:
+          description: An error occurred
+          schema:
+            $ref: '#/definitions/HttpError'
+definitions:
+  CustomerList:
+    properties:
+      customers:
+        type: array
+        items:
+          $ref: '#/definitions/CustomerSummary'
+      count:
+        type: number
+        format: int32
+  CustomerSummary:
+    properties:
+      id:
+        type: string
+      href:
+        type: string
+      name:
+        type: string
+  HttpError:
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+        minimum: 100
+        maximum: 600

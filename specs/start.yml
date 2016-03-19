@@ -1,0 +1,12 @@
+swagger: '2.0'
+info:
+  title: My Customer API
+  version: "1.0.0"
+basePath: /v1
+
+paths:
+  /customers:
+    get:
+      responses:
+        200:
+          description: List of customers

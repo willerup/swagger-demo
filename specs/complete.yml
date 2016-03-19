@@ -1,0 +1,213 @@
+
+swagger: '2.0'
+info:
+  title: My API
+  version: "1.0.0"
+host: api.mysite.com
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+
+securityDefinitions:
+  my_apikey:
+    type: apiKey
+    name: api_key
+    in: header
+
+  my_oauth:
+    type: oauth2
+    authorizationUrl: http://api.mysite/oauth2/auth
+    flow: implicit
+    scopes:
+      write:customers: modify customers
+      read:customers: read customers
+
+  my_basic:
+    type: basic
+
+security:
+  - my_apikey: []
+
+paths:
+  /customers:
+    get:
+      parameters:
+      - $ref: "#/parameters/offset"
+      - $ref: "#/parameters/limit"
+      tags:
+      - public
+      description: Get list of customers
+      operationId: listCustomers
+      responses:
+        200:
+          description: List of customers
+          schema:
+            $ref: '#/definitions/CustomerList'
+        default:
+          description: An error occurred
+          schema:
+            $ref: '#/definitions/HttpError'
+    post:
+      security:
+      - my_oauth: ['write:customers']
+      tags:
+      - admin
+      description: Create a customer
+      operationId: createCustomer
+      parameters:
+        - name: customer
+          in: body
+          schema:
+            $ref: '#/definitions/CustomerCreate'
+      responses:
+        201:
+          description: Customer
+          schema:
+            $ref: '#/definitions/CustomerDetail'
+        default:
+          description: General HTTP error
+          schema:
+            $ref: '#/definitions/HttpError'
+
+  /customers/{id}:
+    get:
+      tags:
+      - public
+      description: Get a customer by id
+      operationId: getCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Customer detail
+          schema:
+            $ref: '#/definitions/CustomerDetail'
+          examples:
+            application/json:
+              id: abc123
+              href: 'https://api.mysite.com/v1/customers/abc123'
+              name: 'Customer Ltd'
+              email: 'customer@company.com'
+              active: true
+              joined: '2015-09-11'
+        404:
+          description: Customer not found
+          schema:
+            $ref: '#/definitions/HttpError'
+        default:
+          description: General HTTP error
+          schema:
+            $ref: '#/definitions/HttpError'
+    put:
+      tags:
+      - public
+      - admin
+      description: Update customer information
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: update
+          in: body
+          schema:
+            $ref: '#/definitions/CustomerCreate'
+      responses:
+        200:
+          description: Updated customer detail
+          schema:
+            $ref: '#/definitions/CustomerDetail'
+        404:
+          description: Customer not found
+          schema:
+            $ref: '#/definitions/HttpError'
+        default:
+          description: General HTTP error
+          schema:
+            $ref: '#/definitions/HttpError'
+    delete:
+      tags:
+      - admin
+      description: Delete a customer
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Delete confirmation
+        404:
+          description: Customer not found
+          schema:
+            $ref: '#/definitions/HttpError'
+        default:
+          description: General HTTP error
+          schema:
+            $ref: '#/definitions/HttpError'
+
+parameters:
+  offset:
+    name: offset
+    in: query
+    description: Index of first item to return
+    type: integer
+    format: int32
+  limit:
+    name: limit
+    in: query
+    description: Max items to return
+    type: integer
+    format: int32
+
+definitions:
+  CustomerList:
+    properties:
+      customers:
+        type: array
+        items:
+          $ref: '#/definitions/CustomerSummary'
+      count:
+        type: number
+  CustomerCreate:
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      active:
+        type: boolean
+  CustomerSummary:
+    properties:
+      id:
+        type: string
+      href:
+        type: string
+      name:
+        type: string
+  CustomerDetail:
+    allOf:
+    - $ref: '#/definitions/CustomerSummary'
+    - properties:
+        email:
+          type: string
+        active:
+          type: boolean
+        joined:
+          type: string
+          format: date
+  HttpError:
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+        minimum: 100
+        maximum: 600
